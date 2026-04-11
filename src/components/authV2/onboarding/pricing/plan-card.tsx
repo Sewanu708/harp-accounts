@@ -1,8 +1,8 @@
 import { HarpButton } from "@/components/harp-ui/harp-button";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
-import { BillingCycle } from "@/@types/authV2";
-import { is } from "date-fns/locale";
+
+type BillingCycle = "monthly" | "annual";
 
 function formatPrice(amount: number, currency: string): string {
   if (currency?.toUpperCase() === "NGN") return `₦${amount.toLocaleString()}`;

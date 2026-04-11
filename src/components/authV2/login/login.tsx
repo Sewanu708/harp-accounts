@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn, useSession } from "next-auth/react";
 import { harpToast as toast } from "@/lib/toast";
-import { Eye, EyeOff, Loader2, TriangleAlert, Search } from "lucide-react";
+import { Eye, EyeOff, TriangleAlert, Search } from "lucide-react";
 
 import { loginSchema, type LoginFormData } from "@/lib/validations";
 import { APPLICATIONS } from "@/lib";
@@ -28,7 +28,7 @@ export default function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { application, applicationUrl } = useHarp();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession() as { data: { token?: string } | null };
 
   const callbackUrl = searchParams.get("callbackUrl");
 
@@ -60,7 +60,7 @@ export default function LoginContent() {
       }
       console.log({ session }, `${applicationUrl!}?auth=${session.token}`);
     }
-  }, [session, isLoggedIn, applicationUrl, router]);
+  }, [session, isLoggedIn, applicationUrl, router, callbackUrl]);
 
   // ── Handlers ──────────────────────────────────────────────────────────────
   const onSubmit = async (data: LoginFormData) => {
@@ -85,8 +85,8 @@ export default function LoginContent() {
       } else if (!resp?.ok || resp?.status > 204) {
         throw new Error("Login failed, email or password is incorrect.");
       }
-    } catch (error: any) {
-      toast.error(error?.message || "Login failed");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Login failed");
     } finally {
       setIsLoading(false);
     }
@@ -96,7 +96,7 @@ export default function LoginContent() {
     setSocialLoading(provider);
     try {
       await signIn(provider);
-    } catch (error) {
+    } catch {
       toast.error(`Failed to sign in with ${provider}. Please try again.`);
     } finally {
       setSocialLoading(null);

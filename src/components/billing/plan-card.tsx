@@ -68,9 +68,9 @@ export function BillingPlanCard({
         <h3 className="text-xl font-bold tracking-tight text-foreground-strong">
           {plan.name}
         </h3>
-        <p className="mt-2 text-sm text-foreground-subtle leading-relaxed">
+        {/* <p className="mt-2 text-sm text-foreground-subtle leading-relaxed">
           {plan.description}
-        </p>
+        </p> */}
         <div className="mt-6 flex items-baseline gap-1">
           <span className="text-4xl font-bold tracking-tight text-foreground-strong">
             {plan.slug === "free" || plan.priceAmount === 0
@@ -105,7 +105,7 @@ export function BillingPlanCard({
         {/* Features List */}
         <div className="space-y-4">
             <p className="text-xs font-bold uppercase tracking-wider text-foreground-subtle/70">
-                What's included
+                What&apos;s included
             </p>
             <ul className="space-y-3">
             {plan.features.map((feature, i) => (

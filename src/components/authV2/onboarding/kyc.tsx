@@ -24,7 +24,7 @@ type FormValues = z.infer<typeof kycSchemav2>;
 
 export default function KycFormV2() {
   const router = useRouter();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession() as { data: { token?: string } | null };
 
   const {
     register,
@@ -35,10 +35,6 @@ export default function KycFormV2() {
   } = useForm<FormValues>({
     resolver: zodResolver(kycSchemav2),
   });
-
-  const handleCountrySelect = (data: any) => {
-    setValue("country", data?.label || "");
-  };
 
   const onSubmit = async (data: FormValues) => {
     const token = session?.token;

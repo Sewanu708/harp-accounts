@@ -10,7 +10,7 @@ export class APIClientError extends Error {
 type RequestOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   headers?: Record<string, string>;
-  body?: any;
+  body?: unknown;
   tag?: string;
   filters?: Record<string, string | string[] | number | boolean>;
 };

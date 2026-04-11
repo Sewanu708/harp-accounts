@@ -1,8 +1,7 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -139,7 +138,7 @@ function RegisterFormContent({
           Create your free account
         </h1>
         <p className="w-full max-w-[411px] text-[16px] font-medium text-harp-grey-31">
-          Give your team only tool they'll need to keep your customers happy.
+          Give your team only tool they&apos;ll need to keep your customers happy.
         </p>
       </div>
 

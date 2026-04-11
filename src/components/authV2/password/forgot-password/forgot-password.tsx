@@ -74,7 +74,7 @@ export default function ForgotPasswordContent() {
               Check your email
             </h1>
             <p className="w-full max-w-[393px] text-[16px] font-medium text-harp-grey-31">
-              We've sent a password reset link to{" "}
+              We&apos;ve sent a password reset link to{" "}
               <span className="text-foreground">{email}</span>
             </p>
           </div>
@@ -104,7 +104,7 @@ export default function ForgotPasswordContent() {
           Reset your password
         </h1>
         <p className="w-full max-w-[411px] text-[16px] font-medium text-harp-grey-31">
-          Enter the email associated with your account and we'll send you a
+          Enter the email associated with your account and we&apos;ll send you a
           password reset link.
         </p>
       </div>

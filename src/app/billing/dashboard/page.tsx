@@ -1,36 +1,34 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowUpRight, AlertCircle, Loader2 } from "lucide-react";
+import { ArrowUpRight, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { HarpButton } from "@/components/harp-ui/harp-button";
 import { useMultiServiceUsage, useCurrentPlan } from "@/hooks/queries/use-pricing";
 import { CancelSubscriptionModal } from "@/components/billing/cancel-sub";
-import { useHarp } from "@/contexts/harp-context";
 import BillingHistory from "./billing-history";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 export default function BillingDashboard() {
   const router = useRouter();
-  const { application } = useHarp();
   const { data, isLoading, isError, error } = useMultiServiceUsage();
   const { data: currentPlan } = useCurrentPlan();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [quotaData, setQuotaData] = useState<any[]>([]);
+  const [quotaData, setQuotaData] = useState<{ name: string; used: string; quota: string; percentage: number }[]>([]);
 
   // Redirect to login on 401
   useEffect(() => {
-    if (isError && (error as any)?.status === 401) {
+    if (isError && (error as { status?: number })?.status === 401) {
       router.push("/auth/login?callbackUrl=/billing/dashboard");
     }
   }, [isError, error, router]);
 
   useEffect(() => {
     if (data?.services) {
-      const mapped = Object.entries(data.services).map(
-        ([key, value]: [string, any]) => ({
+      const mapped = (Object.entries(data.services) as [string, { sent?: number; quota?: number; usagePercentage?: number }][]).map(
+        ([key, value]) => ({
           name: key === "emails" ? "emails sent" : key,
           used: value.sent?.toLocaleString() ?? "0",
           quota: value.quota?.toLocaleString() ?? "0",
@@ -41,7 +39,7 @@ export default function BillingDashboard() {
     }
   }, [data]);
 
-  if (isError && (error as any)?.status !== 401) {
+  if (isError && (error as { status?: number })?.status !== 401) {
     return (
       <div className="flex h-[50vh] w-full flex-col items-center justify-center gap-4">
         <div className="flex items-center gap-2 text-destructive">

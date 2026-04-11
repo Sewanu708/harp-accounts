@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { HarpLogoDark } from "@/lib/logo";
 import { useHarp } from "@/contexts/harp-context";
-import { Button } from "@/components/ui/button";
+
 import { ArrowLeft } from "lucide-react";
 
 interface BillingHeaderProps {

@@ -1,5 +1,8 @@
-import { BillingCycle } from "@/@types/authV2";
+
 import { cn } from "@/lib/utils";
+
+type BillingCycle = "monthly" | "annual";
+
 
 interface BillingToggleProps {
   value: BillingCycle;

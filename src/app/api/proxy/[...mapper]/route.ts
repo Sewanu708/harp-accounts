@@ -16,8 +16,8 @@ async function handleProxyRequest(request: NextRequest) {
   const backendPath = `${baseUrl}${path}${search}`;
 
   console.log('This is backend path', backendPath,session?.token)
-  const headers: Record<string, any> = {
-    ...request.headers,
+  const headers: Record<string, string> = {
+    ...Object.fromEntries(request.headers),
     Authorization: session?.token ?? "",
   };
 

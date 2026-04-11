@@ -61,7 +61,7 @@ export function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 // Gmail logo — used on the verify email screen "Open Gmail" button
-export function GmailIcon(props: React.SVGProps<SVGSVGElement>) {
+export function GmailIcon() {
   return (
     <Image src={'/gmail.svg'} width={24} alt='gmail logo' height={24} />
 

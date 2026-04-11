@@ -48,7 +48,7 @@ export function VerifyEmailV2({ email }: { email: string;}) {
           Verify your email address
         </h1>
         <p className="w-full max-w-[463px] text-[16px] font-medium text-harp-grey-31">
-          We've sent a verification link to{" "}
+          We&apos;ve sent a verification link to{" "}
           <span className="font-semibold text-foreground">{email}</span>
         </p>
       </div>
@@ -67,7 +67,7 @@ export function VerifyEmailV2({ email }: { email: string;}) {
         </HarpButton>
 
         <p className="w-full max-w-[335px] text-center text-[12px] font-normal leading-[18px] text-harp-grey-31">
-          Don't see the email? Check your spam or{" "}
+          Don&apos;t see the email? Check your spam or{" "}
           <button
             type="button"
             onClick={handleResend}

@@ -51,7 +51,7 @@ export const authOptions = {
     // ...add more providers here
   ],
   callbacks: {
-    async jwt({ token, trigger, user, session, newSession }: any) {
+    async jwt({ token, trigger, user, session }: any) {
       // console.log({ token, user })
       // console.log({ trigger, token, session, newSession, update: true });
       if (trigger === "update") {

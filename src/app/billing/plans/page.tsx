@@ -27,7 +27,7 @@ const currencies = [
 export default function PlansPage() {
   const router = useRouter();
   const { application, applicationUrl } = useHarp();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession();
   const { data, isLoading } = useComparison();
   const { mutateAsync: checkout } = usePayment();
 
@@ -54,7 +54,7 @@ export default function PlansPage() {
     try {
       const origin = window.location.origin;
       const result = await checkout({
-        customerId: session?.user?.id ?? "",
+        customerId: (session?.user as { id?: string })?.id ?? "",
         planId: plan.id,
         successUrl: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}&r=${encodeURIComponent(applicationUrl ?? "")}&i=${application ?? ""}`,
         cancelUrl: `${origin}/payment/failed?session_id={CHECKOUT_SESSION_ID}&i=${application ?? ""}`,
@@ -129,7 +129,7 @@ export default function PlansPage() {
               key={plan.id}
               plan={plan}
               isLoading={selectingPlanId === plan.id}
-              isRecommended={plan.id === (data?.recommendations as any)?.suggestedPlanId}
+              isRecommended={plan.id === (data?.recommendations as { suggestedPlanId?: string })?.suggestedPlanId}
               currency={currency}
               billingCycle={billingCycle}
               onSelect={handleSelectPlan}

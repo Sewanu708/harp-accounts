@@ -11,7 +11,7 @@ export default function PaymentSuccessPage() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const redirectUrl = searchParams.get("r"); // applicationUrl passed through checkout
-  const { data: session }: any = useSession();
+  const { data: session } = useSession() as { data: { token?: string } | null };
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {

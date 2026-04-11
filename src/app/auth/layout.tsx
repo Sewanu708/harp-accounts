@@ -1,35 +1,10 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
-import { Skeleton } from "@/components/ui/skeleton";
-import { HarpLogoLight, HarpLogoDark } from "@/lib/logo";
-
-function ThemeSwitchButton() {
-  const { theme, setTheme } = useTheme();
-  return (
-    <button
-      className="rounded-full bg-gray-100 shadow p-2 hover:bg-gray-200 transition-colors"
-      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-      aria-label="Toggle theme"
-    >
-      {theme === "dark" ? "🌙" : "☀️"}
-    </button>
-  );
-}
+import React from "react";
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { theme } = useTheme();
-
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
   return (
     // <div className="h-screen w-screen flex flex-col justify-center items-center relative">
     //   {/* Centered Card */}

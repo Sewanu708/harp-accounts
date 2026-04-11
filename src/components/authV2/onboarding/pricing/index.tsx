@@ -14,7 +14,7 @@ import { usePlans, usePayment } from "@/hooks/queries/use-pricing";
 export default function PlanPage() {
   const router = useRouter();
   const { applicationUrl, application } = useHarp();
-  const { data: session }: any = useSession();
+  const { data: session } = useSession() as { data: { token?: string; user?: { id?: string } } | null };
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">(
     "monthly",
   );

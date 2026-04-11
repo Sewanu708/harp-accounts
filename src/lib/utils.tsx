@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Mail } from "lucide-react";
-import { GmailIcon, GoogleIcon, OutlookIcon } from "@/lib/logo";
+import { GmailIcon, OutlookIcon } from "@/lib/logo";
 import { HarpButton } from "@/components/harp-ui/harp-button";
 
 export function cn(...inputs: ClassValue[]) {

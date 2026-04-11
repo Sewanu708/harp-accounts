@@ -61,8 +61,8 @@ export function SetPasswordFormV2({ token, email }: SetPasswordFormV2Props) {
       } else {
         throw new Error("No token returned");
       }
-    } catch (error: any) {
-      toast.error(error.message || "Failed to set password");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to set password");
       router.push("/auth/signup");
     }
   };
