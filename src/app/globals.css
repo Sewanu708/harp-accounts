@@ -1,0 +1,306 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-dm-sans);   /* was var(--font-geist-sans) */
+  --font-mono: var(--font-dm-mono);   /* was var(--font-geist-mono) */
+
+  /* Brand Colors */
+  --color-primary:                    var(--primary);
+  --color-primary-foreground:         var(--primary-foreground);
+  --color-primary-hover:              var(--primary-hover);
+  --color-primary-active:             var(--primary-active);
+
+  --color-accent:                     var(--accent);
+  --color-accent-foreground:          var(--accent-foreground);
+  --color-accent-hover:               var(--accent-hover);
+  --color-accent-active:              var(--accent-active);
+
+  --color-destructive:                var(--destructive);
+  --color-destructive-foreground:     var(--destructive-foreground);
+  --color-destructive-hover:          var(--destructive-hover);
+
+  /* Semantic UI Colors */
+  --color-secondary:                  var(--secondary);
+  --color-secondary-foreground:       var(--secondary-foreground);
+  --color-card:                       var(--card);
+  --color-card-foreground:            var(--card-foreground);
+  --color-popover:                    var(--popover);
+  --color-popover-foreground:         var(--popover-foreground);
+  --color-muted:                      var(--muted);
+  --color-muted-foreground:           var(--muted-foreground);
+  --color-border:                     var(--border);
+  --color-input:                      var(--input);
+  --color-ring:                       var(--ring);
+
+  /* Hierarchy Tokens (Added for Toast and Typography) */
+  --color-foreground-strong:          var(--foreground-strong);
+  --color-foreground-subtle:          var(--foreground-subtle);
+
+  /* Sidebar */
+  --color-sidebar:                    var(--sidebar);
+  --color-sidebar-foreground:         var(--sidebar-foreground);
+  --color-sidebar-primary:            var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent:             var(--sidebar-accent);
+  --color-sidebar-accent-foreground:  var(--sidebar-accent-foreground);
+  --color-sidebar-border:             var(--sidebar-border);
+  --color-sidebar-ring:               var(--sidebar-ring);
+
+  /* Icon Tokens */
+  --color-icon-brand:                 var(--icon-brand);
+  --color-icon-disabled:              var(--icon-disabled);
+
+  /* Focus Ring Colors */
+  --color-ring-primary:               var(--ring-primary);
+  --color-ring-danger:                var(--ring-danger);
+  --color-ring-accent:                var(--ring-accent);
+
+  /* Shared Teal Surfaces (ghost + secondary hover/active) */
+  --color-surface-teal-soft:          var(--surface-teal-soft);
+  --color-surface-teal-press:         var(--surface-teal-press);
+
+  /* Harp Design System Tokens */
+  --color-harp-grey-31:               var(--harp-grey-31);
+  --color-harp-azure-89:              var(--harp-azure-89);
+
+  /* Button Shadows */
+  --shadow-btn-primary-default:       var(--shadow-btn-primary-default);
+  --shadow-btn-primary-hover:         var(--shadow-btn-primary-hover);
+  --shadow-btn-primary-active:        var(--shadow-btn-primary-active);
+  --shadow-btn-secondary-default:     var(--shadow-btn-secondary-default);
+  --shadow-btn-secondary-hover:       var(--shadow-btn-secondary-hover);
+  --shadow-btn-secondary-active:      var(--shadow-btn-secondary-active);
+  --shadow-btn-danger-default:        var(--shadow-btn-danger-default);
+  --shadow-btn-danger-hover:          var(--shadow-btn-danger-hover);
+  --shadow-btn-accent-default:        var(--shadow-btn-accent-default);
+  --shadow-btn-accent-hover:          var(--shadow-btn-accent-hover);
+
+  /* Radius Tokens */
+  --radius-xs:   4px;
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   8px;
+  --radius-xl:   8px;
+  --radius-pill: 9999px;
+
+  /* Toast & Semantic Additions */
+  --color-success:                    var(--success);
+  --color-success-foreground:         var(--success-foreground);
+  --color-info:                       var(--info);
+  --color-info-foreground:            var(--info-foreground);
+  --color-ring-success:               var(--ring-success);
+  --color-ring-info:                  var(--ring-info);
+  --color-ring-input:                 var(--ring-input);
+
+  /* Typography */
+  --font-display: "DM Sans", sans-serif;
+  --font-code:    "DM Mono", monospace;
+
+  /* Motion */
+  --animate-spinner: spin 0.65s linear infinite;
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/*  LIGHT THEME                                                                */
+/* ─────────────────────────────────────────────────────────────────────────── */
+:root {
+  --radius: 0.625rem;
+
+  /* Brand Core */
+  --primary:                    #00403D;
+  --primary-foreground:         #FFFFFF;
+  --primary-hover:              #003532;
+  --primary-active:             #002a28;
+
+  --accent:                     #D07101;
+  --accent-foreground:          #FFFFFF;
+  --accent-hover:               #A85A01;
+  --accent-active:              #804401;
+
+  --destructive:                #DC2626;
+  --destructive-foreground:     #FFFFFF;
+  --destructive-hover:          #B91C1C;
+
+  /* Secondary — white bg, brand border, brand text */
+  --secondary:                  #FFFFFF;
+  --secondary-foreground:       #00403D;
+
+  /* Surface & Layout */
+  --background:                 #FFFFFF;
+  --foreground:                 #00403D;
+  
+  /* Hierarchy Tokens */
+  --foreground-strong:          #121416; /* Woodsmoke */
+  --foreground-subtle:          #495057; /* Abbey */
+
+  --card:                       #FFFFFF;
+  --card-foreground:            #00403D;
+
+  --popover:                    #FFFFFF;
+  --popover-foreground:         #00403D;
+
+  --muted:                      #F8F9FA;
+  --muted-foreground:           #868E96;
+
+  --border:                     #E9ECEF;
+  --input:                      #E9ECEF;
+  --ring:                       #00403D;
+
+  /* Icon Tokens */
+  --icon-brand:                 #00403D;
+  --icon-disabled:              #ADB5BD;
+
+  /* Focus Rings */
+  --ring-primary:               rgb(0 64 61 / 30%);
+  --ring-danger:                rgb(220 38 38 / 25%);
+  --ring-accent:                rgb(208 113 1 / 25%);
+
+  /* Shared Teal Surfaces */
+  --surface-teal-soft:          #E6EFEF;  /* hover  — secondary + ghost */
+  --surface-teal-press:         #BFD4D3;  /* active — secondary + ghost */
+
+  /* Button Shadows */
+  --shadow-btn-primary-default:   0px 1px 2px 0px rgba(0, 64, 61, 0.20);
+  --shadow-btn-primary-hover:     0px 2px 6px 0px rgba(0, 64, 61, 0.30);
+  --shadow-btn-primary-active:    inset 0px 2px 4px 1px rgba(0, 0, 0, 0.15);
+
+  --shadow-btn-secondary-default: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow-btn-secondary-hover:   0px 2px 6px 0px rgba(0, 64, 61, 0.15);
+  --shadow-btn-secondary-active:  0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+
+  --shadow-btn-danger-default:    0px 1px 2px 0px rgba(220, 38, 38, 0.20);
+  --shadow-btn-danger-hover:      0px 2px 6px 0px rgba(220, 38, 38, 0.30);
+
+  --shadow-btn-accent-default:    0px 1px 2px 0px rgba(208, 113, 1, 0.20);
+  --shadow-btn-accent-hover:      0px 2px 6px 0px rgba(208, 113, 1, 0.30);
+
+  /* Sidebar */
+  --sidebar:                    #FFFFFF;
+  --sidebar-foreground:         #121416;
+  --sidebar-primary:            #00403D;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent:             #F8F9FA;
+  --sidebar-accent-foreground:  #00403D;
+  --sidebar-border:             #E9ECEF;
+  --sidebar-ring:               #00403D;
+
+  --success:                    #16A34A;
+  --success-foreground:         #FFFFFF;
+  --info:                       #1D4ED8;
+  --info-foreground:            #FFFFFF;
+  --ring-success:               rgb(22 163 74 / 15%);
+  --ring-info:                  rgb(29 78 216 / 15%);
+  --ring-input:                 rgb(0 64 61 / 15%); 
+
+  /* Harp Design System Variables */
+  --harp-grey-31:               #495057;
+  --harp-azure-89:              #DEE2E6;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/*  DARK THEME                                                                 */
+/* ─────────────────────────────────────────────────────────────────────────── */
+.dark {
+  --background:                 #121416;
+  --foreground:                 #F8F9FA;
+  
+  /* Hierarchy Tokens (Dark Mode) */
+  --foreground-strong:          #FFFFFF;
+  --foreground-subtle:          #ADB5BD;
+
+  --card:                       #1a1d1f;
+  --card-foreground:            #F8F9FA;
+
+  --popover:                    #1a1d1f;
+  --popover-foreground:         #F8F9FA;
+
+  --primary:                    #00524F;
+  --primary-foreground:         #121416;
+  --primary-hover:              #006560;
+  --primary-active:             #003532;
+
+  --accent:                     #E07A01;
+  --accent-foreground:          #121416;
+  --accent-hover:               #D07101;
+  --accent-active:              #A85A01;
+
+  --destructive:                #DC2626;
+  --destructive-foreground:     #121416;
+  --destructive-hover:          #B91C1C;
+
+  --secondary:                  #1f2224;
+  --secondary-foreground:       #F8F9FA;
+
+  --muted:                      #1f2224;
+  --muted-foreground:           #ADB5BD;
+
+  --info:                       #3B82F6; /* Lighter blue for dark mode */
+
+  --border:                     rgb(255 255 255 / 12%);
+  --input:                      rgb(255 255 255 / 18%);
+  --ring:                       #00524F;
+
+  /* Icon Tokens */
+  --icon-brand:                 #4D9E9A;
+  --icon-disabled:              #6c757d;
+
+  /* Focus Rings */
+  --ring-primary:               rgb(0 82 79 / 30%);
+  --ring-danger:                rgb(239 68 68 / 25%);
+  --ring-accent:                rgb(224 122 1 / 25%);
+
+  /* Shared Teal Surfaces — darkened for dark mode */
+  --surface-teal-soft:          #0d2e2c;
+  --surface-teal-press:         #0a2422;
+
+  /* Button Shadows — slightly reduced opacity for dark mode */
+  --shadow-btn-primary-default:   0px 1px 2px 0px rgba(0, 82, 79, 0.30);
+  --shadow-btn-primary-hover:     0px 2px 6px 0px rgba(0, 82, 79, 0.40);
+  --shadow-btn-primary-active:    inset 0px 2px 4px 1px rgba(0, 0, 0, 0.25);
+
+  --shadow-btn-secondary-default: 0px 1px 2px 0px rgba(0, 0, 0, 0.20);
+  --shadow-btn-secondary-hover:   0px 2px 6px 0px rgba(0, 82, 79, 0.25);
+  --shadow-btn-secondary-active:  0px 1px 2px 0px rgba(0, 0, 0, 0.20);
+
+  --shadow-btn-danger-default:    0px 1px 2px 0px rgba(239, 68, 68, 0.25);
+  --shadow-btn-danger-hover:      0px 2px 6px 0px rgba(239, 68, 68, 0.35);
+
+  --shadow-btn-accent-default:    0px 1px 2px 0px rgba(224, 122, 1, 0.25);
+  --shadow-btn-accent-hover:      0px 2px 6px 0px rgba(224, 122, 1, 0.35);
+
+  /* Sidebar */
+  --sidebar:                    #1a1d1f;
+  --sidebar-foreground:         #F8F9FA;
+  --sidebar-primary:            #00524F;
+  --sidebar-primary-foreground: #F8F9FA;
+  --sidebar-accent:             #1f2224;
+  --sidebar-accent-foreground:  #F8F9FA;
+  --sidebar-border:             rgb(255 255 255 / 12%);
+  --sidebar-ring:               #00524F;
+
+  /* Harp Design System Variables (Dark Mode) */
+  --harp-grey-31:               #ADB5BD;
+  --harp-azure-89:              rgb(255 255 255 / 12%);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/*  BASE STYLES                                                                */
+/* ─────────────────────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
