@@ -10,7 +10,7 @@ export default function PaymentSuccessPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
-  const redirectUrl = searchParams.get("r"); 
+  const redirectUrl = searchParams.get("r");
   const { data: session } = useSession() as { data: { token?: string } | null };
   const [countdown, setCountdown] = useState(5);
 
@@ -23,10 +23,16 @@ export default function PaymentSuccessPage() {
     if (countdown === 0) {
       if (redirectUrl && session?.token) {
         let finalUrl = decodeURIComponent(redirectUrl);
-        if (!finalUrl.startsWith("http://") && !finalUrl.startsWith("https://")) {
+        if (
+          !finalUrl.startsWith("http://") &&
+          !finalUrl.startsWith("https://")
+        ) {
           finalUrl = `http://${finalUrl}`;
         }
-        window.location.href = `${finalUrl}?auth=${session.token}`;
+
+        const uri = new URL(finalUrl);
+        uri.searchParams.set("auth", session.token);
+        window.location.href = uri.toString();
       } else {
         router.push("/");
       }
@@ -39,8 +45,8 @@ export default function PaymentSuccessPage() {
 
   const handleContinue = () => {
     if (redirectUrl && session?.token) {
-      console.log('redirectUrl', redirectUrl)
-      console.log('session.token')
+      console.log("redirectUrl", redirectUrl);
+      console.log("session.token");
       let finalUrl = decodeURIComponent(redirectUrl);
       if (!finalUrl.startsWith("http://") && !finalUrl.startsWith("https://")) {
         finalUrl = `http://${finalUrl}`;
