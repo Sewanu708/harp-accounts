@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-const BASE_URL = process.env.HARP_BASE;
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
 
@@ -12,20 +11,6 @@ export default async function HomePage() {
     redirect("/auth/login");
   }
 
-  console.log(session?.token);
-
-  const resp = await fetch(`${BASE_URL}/auth/me`, {
-    method: "POST",
-    headers: {
-      Authorization: session?.token,
-    },
-  });
-
-  const data = await resp.json();
-
-  if (!data?.account) {
-    redirect("/auth/login");
-  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50">
       <div className="container mx-auto px-4 py-16">
