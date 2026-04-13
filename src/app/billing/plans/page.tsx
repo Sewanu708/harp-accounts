@@ -15,6 +15,7 @@ import { useComparison, usePayment } from "@/hooks/queries/use-pricing";
 import { BillingPlanCard } from "@/components/billing/plan-card";
 import { useHarp } from "@/contexts/harp-context";
 import { useSession } from "next-auth/react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const currencies = [
   { code: "USD", name: "US Dollar ($)" },
@@ -26,21 +27,42 @@ const currencies = [
 
 export default function PlansPage() {
   const router = useRouter();
-  const { application, applicationUrl } = useHarp();
-  const { data: session } = useSession();
+  const { application, applicationUrl, billingContext } = useHarp();
+  const { data: session, status } = useSession();
   const { data, isLoading } = useComparison();
   const { mutateAsync: checkout } = usePayment();
 
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">(
+    "monthly",
+  );
+  const [isAutoRedirecting, setIsAutoRedirecting] = useState(false);
   const [currency, setCurrency] = useState("USD");
   const [selectingPlanId, setSelectingPlanId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (status === "loading") return;
+
     const saved = localStorage.getItem("preferredCurrency");
     if (saved && currencies.some((c) => c.code === saved)) {
       setCurrency(saved);
     }
-  }, []);
+
+    const callback = `billing/plans?i=${application}&r=${applicationUrl}&bt=${billingContext.type}&bc=${billingContext.currency}&pd=${billingContext.planId}`;
+
+    if (status === "unauthenticated" && billingContext.planId) {
+      router.push(`/auth/login?callback=${encodeURIComponent(callback)}`);
+      return;
+    }
+
+    if (
+      status === "authenticated" &&
+      billingContext.planId &&
+      !isAutoRedirecting
+    ) {
+      setIsAutoRedirecting(true);
+      startCheckout(billingContext.planId);
+    }
+  }, [status, billingContext.planId]);
 
   const handleCurrencyChange = (code: string) => {
     setCurrency(code);
@@ -62,30 +84,73 @@ export default function PlansPage() {
       window.location.href = result.checkoutUrl;
     } catch {
       setSelectingPlanId(null);
+      setIsAutoRedirecting(false);
+    }
+  };
+
+  const startCheckout = async (id: string) => {
+    try {
+      const origin = window.location.origin;
+      const result = await checkout({
+        customerId: (session?.user as { id?: string })?.id ?? "",
+        planId: id,
+        successUrl: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}&r=${encodeURIComponent(applicationUrl ?? "")}&i=${application ?? ""}`,
+        cancelUrl: `${origin}/payment/failed?session_id={CHECKOUT_SESSION_ID}&i=${application ?? ""}`,
+      });
+      window.location.href = result.checkoutUrl;
+    } catch {
+      setSelectingPlanId(null);
+      setIsAutoRedirecting(false);
     }
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 relative">
+      {/* Auto-redirect Overlay */}
+      {isAutoRedirecting && (
+        <Dialog open>
+          <DialogContent
+            className="!bg-transparent !border-0 !shadow-none !ring-0 !outline-none p-0 flex items-center justify-center"
+            showCloseButton={false}
+            onEscapeKeyDown={(e) => e.preventDefault()}
+            onInteractOutside={(e) => e.preventDefault()}
+          >
+            <div className="flex flex-col items-center gap-4">
+              <div className="h-10 w-10 animate-spin rounded-full border-2 border-muted border-t-foreground" />
+
+              <p className="text-sm text-white">Redirecting to checkout...</p>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
         <h1 className="text-4xl font-bold tracking-tight text-foreground-strong sm:text-5xl">
           Plans and Pricing
         </h1>
         <p className="mt-4 text-lg text-foreground-subtle leading-relaxed">
-          Select the best plan for your business. You can upgrade, downgrade, or cancel your subscription at any time.
+          Select the best plan for your business. You can upgrade, downgrade, or
+          cancel your subscription at any time.
         </p>
       </div>
-
 
       {/* Controls */}
       <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
         <Tabs defaultValue="monthly" className="w-full sm:w-auto">
           <TabsList>
-            <TabsTrigger value="monthly" onClick={() => setBillingCycle("monthly")} className="px-8">
+            <TabsTrigger
+              value="monthly"
+              onClick={() => setBillingCycle("monthly")}
+              className="px-8"
+            >
               Monthly
             </TabsTrigger>
-            <TabsTrigger value="annual" onClick={() => setBillingCycle("annual")} className="px-8">
+            <TabsTrigger
+              value="annual"
+              onClick={() => setBillingCycle("annual")}
+              className="px-8"
+            >
               Annual{" "}
               <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800">
                 Save 15%
@@ -119,7 +184,10 @@ export default function PlansPage() {
       {isLoading ? (
         <div className="mt-12 grid gap-8 lg:grid-cols-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-[480px] animate-pulse rounded-lg bg-muted" />
+            <div
+              key={i}
+              className="h-[480px] animate-pulse rounded-lg bg-muted"
+            />
           ))}
         </div>
       ) : (
@@ -129,7 +197,11 @@ export default function PlansPage() {
               key={plan.id}
               plan={plan}
               isLoading={selectingPlanId === plan.id}
-              isRecommended={plan.id === (data?.recommendations as { suggestedPlanId?: string })?.suggestedPlanId}
+              isRecommended={
+                plan.id ===
+                (data?.recommendations as { suggestedPlanId?: string })
+                  ?.suggestedPlanId
+              }
               currency={currency}
               billingCycle={billingCycle}
               onSelect={handleSelectPlan}
@@ -140,7 +212,10 @@ export default function PlansPage() {
 
       {/* Back to dashboard */}
       <div className="pt-4 text-center">
-        <Button variant="ghost" onClick={() => router.push("/billing/dashboard")}>
+        <Button
+          variant="ghost"
+          onClick={() => router.push("/billing/dashboard")}
+        >
           Back to Dashboard
         </Button>
       </div>

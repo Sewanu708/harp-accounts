@@ -2,6 +2,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { authClient } from "./api-client";
+import { Session } from "next-auth";
 
 export const authOptions = {
   secret: "oops",
@@ -86,11 +87,11 @@ export const authOptions = {
       return session;
     },
     async signIn({ account, profile }: any) {
-      console.log({ account, profile })
+      console.log({ account, profile });
       if (account.provider === "google") {
-        return profile.email_verified && profile.email.endsWith("@example.com")
+        return profile.email_verified && profile.email.endsWith("@example.com");
       }
-      return true // Do different verification for other providers that don't have `email_verified`
+      return true; // Do different verification for other providers that don't have `email_verified`
     },
   },
   // },
@@ -98,3 +99,23 @@ export const authOptions = {
     signIn: "/auth/login",
   },
 };
+
+export async function isAuthValid(session:Session) {
+  const BASE_URL = process.env.HARP_BASE;
+  if (session) {
+    const resp = await fetch(`${BASE_URL}/auth/me`, {
+      method: "POST",
+      headers: {
+        Authorization: session?.user.token,
+      },
+    });
+
+    const data = await resp.json();
+
+    if (!data?.account) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}

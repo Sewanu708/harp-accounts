@@ -17,7 +17,7 @@ async function handleProxyRequest(request: NextRequest) {
 
   console.log('This is backend path', backendPath,session?.token)
   const headers: Record<string, string> = {
-    ...Object.fromEntries(request.headers),
+    // ...Object.fromEntries(request.headers),
     Authorization: session?.token ?? "",
   };
 
@@ -40,6 +40,7 @@ async function handleProxyRequest(request: NextRequest) {
     url: backendPath,
     headers,
     data: body,
+    timeout:50000
   };
 
   // console.log(config);

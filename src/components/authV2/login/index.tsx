@@ -23,6 +23,7 @@ export function LoginFormV2({
       APPLICATIONS.indexOf(application) > -1 &&
       isAvailableTokenValid
     ) {
+      if (!applicationUrl) return;
       router.replace(`${applicationUrl!}?auth=${token}`);
     }
   }, [application, applicationUrl, token, isAvailableTokenValid]);
