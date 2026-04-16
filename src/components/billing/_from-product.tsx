@@ -11,6 +11,7 @@ export function FromProduct() {
   const { application, applicationUrl, billingContext } = useHarp();
   const { data: session } = useSession();
 
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

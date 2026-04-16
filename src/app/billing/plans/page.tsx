@@ -76,7 +76,7 @@ export default function PlansPage() {
     try {
       const origin = window.location.origin;
       const result = await checkout({
-        customerId: (session?.user as { id?: string })?.id ?? "",
+        customerId: (session?.user as { business_id?: string })?.business_id ?? "",
         planId: plan.id,
         successUrl: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}&r=${encodeURIComponent(applicationUrl ?? "")}&i=${application ?? ""}`,
         cancelUrl: `${origin}/payment/failed?session_id={CHECKOUT_SESSION_ID}&i=${application ?? ""}`,
