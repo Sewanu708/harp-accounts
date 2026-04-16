@@ -8,11 +8,11 @@ export default async function BillingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  // const session = await getServerSession(authOptions);
 
-  if (!session) {
-    redirect("/authV2/login?callbackUrl=/billing/dashboard");
-  }
+  // if (!session) {
+  //   redirect("/authV2/login?callbackUrl=/billing/dashboard");
+  // }
 
   return (
     <div className="min-h-screen w-full flex flex-col relative bg-white">

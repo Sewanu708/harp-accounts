@@ -54,7 +54,7 @@ export default function LoginContent() {
     if (session?.token && isLoggedIn) {
       console.log(session, applicationUrl, callbackUrl);
       if (callbackUrl) {
-        router.replace(callbackUrl);
+        router.replace(`${window.origin}/${callbackUrl}`);
       } else {
         router.replace(`${applicationUrl!}?auth=${session.token}`);
       }
